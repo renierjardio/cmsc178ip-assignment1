@@ -33,7 +33,27 @@ end
 
 % ------ INSERT YOUR CODE BELOW ------
 
-B = rand(size(I,2),size(I,2)); % dummy result, remove this line
+h = ones(N,N) / (N*N);
+B_blur = conv2(I, h, 'same');
+
+sobel_x = [ 2  1  0 -1 -2;
+            3  2  0 -2 -3;
+            4  3  0 -3 -4;
+            3  2  0 -2 -3;
+            2  1  0 -1 -2 ] / 60;
+sobel_y = sobel_x';
+
+Ix = conv2(I, sobel_x, 'same');
+Iy = conv2(I, sobel_y, 'same');
+
+G = sqrt(Ix.^2 + Iy.^2);
+
+W = ones(size(G));
+mask = G > tolerance;
+W(mask) = tolerance ./ G(mask);
+W = min(W, 1);
+
+B = W .* B_blur + (1 - W) .* I;
 
 % ------ INSERT YOUR CODE ABOVE ------
 
