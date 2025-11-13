@@ -45,13 +45,18 @@ fixedcard = apply_rgb_map(badtestcard,RGB_map);
 fixedimage = apply_rgb_map(badimage,RGB_map);
 
 figure
-subplot(2,3,1); image(truecard);title('Reference Card');
-subplot(2,3,2); image(badtestcard);title('Bad Card');
-subplot(2,3,3); image(fixedcard);title('Fixed Card');
+subplot(2,3,1); image(truecard);title('Reference Chart');
+subplot(2,3,2); image(badtestcard);title('Bad Chart');
+subplot(2,3,3); image(fixedcard);title('Fixed Chart');
 
 subplot(2,3,4); image(trueimage);title('Reference Image');
 subplot(2,3,5); image(badimage);title('Bad Image');
 subplot(2,3,6); image(fixedimage);title('Fixed Image');
 
+%-----------Quantitative Check---------------------
 
+mae_before = mean(abs(double(truecard(:)) - double(badtestcard(:))));
+mae_after  = mean(abs(double(truecard(:)) - double(fixedcard(:))));
 
+fprintf('Mean absolute error before correction: %.2f\n', mae_before);
+fprintf('Mean absolute error after correction: %.2f\n', mae_after);
